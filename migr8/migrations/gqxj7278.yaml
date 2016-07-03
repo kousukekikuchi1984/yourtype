@@ -1,0 +1,28 @@
+# -*- coding: utf-8 -*-
+
+version:     gqxj7278
+desc:        create 'actresses' table
+author:      kousukekikuchi
+vars:
+  - table:   actresses
+
+up: |
+  create table ${table} (
+    id               serial       primary key,
+    name             varchar(255) not null,
+    path             varchar(255) not null,
+    liked            boolean,
+    neuroticism      integer,
+    extraversion     integer,
+    openness         integer,
+    agreeableness    integer,
+    conscentiousness integer,
+    created_at       timestamp    not null default current_timestamp,
+    deleted_at       timestamp
+  );
+  create index ${table}_name_idx on ${table}(name);
+  create unique index ${table}_name on ${table}(name);
+
+down: |
+  drop table ${table};
+
