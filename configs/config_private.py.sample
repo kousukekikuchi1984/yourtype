@@ -1,0 +1,21 @@
+# -*- coding: utf-8 -*-
+
+class ConfigPrivate(object):
+
+    ##
+    ## Example:
+    ##   $ python -c "import os,base64;print(base64.urlsafe_b64encode(os.urandom(30)))"
+    ##
+    config.session_secret_key  = ''   # change here by random string
+    config.easy_id_secret_key  = ''   # change here by random string
+    config.access_token        = ''
+
+
+    ##
+    ## others
+    ##
+    #config.sqlalchemy_echo = False     # for example
+    #
+
+    ## SMS
+    # smsmgs_token          = 'xxxxxxxxx'
