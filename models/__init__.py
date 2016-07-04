@@ -10,7 +10,7 @@ Base = declarative_base()
 
 def create_db():
     engine = create_engine(config.sqlalchemy_url, **config.configs)
-    Session = sessionmaker(bind=engine)
+    Session = sessionmaker(bind=engine, autocommit=True, autoflush=False)
     db = Session()
     return db
 

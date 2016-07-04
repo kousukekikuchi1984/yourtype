@@ -6,7 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
 
-from models import Base
+from models import Base, Operation, UseCase
 
 
 class Actress(Base):
@@ -22,6 +22,7 @@ class Actress(Base):
     openness          = Column(Integer)
     agreeableness     = Column(Integer)
     conscientiousness = Column(Integer)
+    #
     created_at        = Column(DateTime, server_default='current_timestamp')
     deleted_at        = Column(DateTime)
 
@@ -51,12 +52,16 @@ class ActressOp(Operation):
         actresses = [ self._pick_actress(t) for t in tabs if t is not None ]
         self.actresses.extend(actresses)
 
+    def bulk_insert(self):
+        self.db.bulk_insert_mappings(Actress, self.actresses)
+        self.db.flush()
+        return True
+
     def run(self):
         for n in self.numbers:
             content = GensunOp(self.db).run(n)
             self.parse(content)
-        ## bulk insert
-
+        self.bulk_insert()
 
 
 class GensunOp(Operation):
@@ -66,6 +71,7 @@ class GensunOp(Operation):
     def run(self, number):
         html = self.path % number
         result = requests.get(html)
+        print(result.__dict__)
         assert result.status_code == 200
         return result.content
 

@@ -4,7 +4,7 @@
 from configs.config_common import ConfigCommon
 
 
-class ConfigDevelopment(object):
+class Config(ConfigCommon):
 
     ## sqlalchemy url
     sqlalchemy_url = 'postgresql+psycopg2://yourtype@localhost/yourtype'
