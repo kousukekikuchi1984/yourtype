@@ -16,7 +16,7 @@ up: |
     extraversion     integer,
     openness         integer,
     agreeableness    integer,
-    conscentiousness integer,
+    conscientiousness integer,
     created_at       timestamp    not null default current_timestamp,
     deleted_at       timestamp
   );
