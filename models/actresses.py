@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sys, re, os
+import time
 
 import requests
 from bs4 import BeautifulSoup
@@ -61,6 +62,8 @@ class ActressOp(Operation):
         for n in self.numbers:
             content = GensunOp(self.db).run(n)
             self.parse(content)
+            if n != self.numbers[-1]:
+                time.sleep(5)
         self.bulk_insert()
 
 
@@ -71,7 +74,6 @@ class GensunOp(Operation):
     def run(self, number):
         html = self.path % number
         result = requests.get(html)
-        print(result.__dict__)
         assert result.status_code == 200
         return result.content
 
