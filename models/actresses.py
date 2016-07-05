@@ -70,6 +70,17 @@ class ActressOp(Operation):
         self.bulk_insert()
 
 
+    def get_one(self):
+        actress = (self.db.query(Actress)
+                .filter_by(liked=None)
+                .filter_by(deleted_at=None)
+                .order_by(Actress.id)
+                ).first()
+        return {
+            "name": actress.name,
+            "path": actress.path,
+        }
+
 class GensunOp(Operation):
 
     path = 'gensun.org/list_ja_female_%s.html'
