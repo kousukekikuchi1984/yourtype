@@ -1,0 +1,7 @@
+timestamp: 1467728197.0
+
+_extend=_buf.extend;_to_str=to_str;_escape=escape; _extend(('''<html>
+  <body>
+    <h1>''', _escape(_to_str(name)), '''</h1>
+  </body>
+</html>\n''', ));
