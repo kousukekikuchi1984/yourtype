@@ -15,7 +15,8 @@ class Actress(Base):
     #
     id                = Column(Integer, primary_key=True)
     name              = Column(String, nullable=False)
-    path              = Column(String, nullable=False)
+    image_path        = Column(String, nullable=False)
+    local_path        = Column(String, nullable=False)
     liked             = Column(Boolean)
     ## big five
     neuroticism       = Column(Integer)
@@ -42,15 +43,19 @@ class ActressOp(Operation):
         name = tab.a['title'] if tab.a else None
         if image_path is None or name is None:
             return None
+        #
+        local_path = 'gensun.org/wid/%s' % image_path.split('/')[-1]
         return {
             "name": name,
             "image_path": image_path,
+            "local_path": local_path,
         }
 
     def parse(self, content):
         tree = BeautifulSoup(content, 'html.parser')
         tabs = tree.find_all(attrs={"class": "thumbnailBox"})
-        actresses = [ self._pick_actress(t) for t in tabs if t is not None ]
+        actresses = [ self._pick_actress(t) for t in tabs ]
+        actresses = [ a for a in actresses if a is not None ]
         self.actresses.extend(actresses)
 
     def bulk_insert(self):
@@ -62,19 +67,21 @@ class ActressOp(Operation):
         for n in self.numbers:
             content = GensunOp(self.db).run(n)
             self.parse(content)
-            if n != self.numbers[-1]:
-                time.sleep(5)
         self.bulk_insert()
 
 
 class GensunOp(Operation):
 
-    path = 'http://gensun.org/list_ja_female_%s.html'
+    path = 'gensun.org/list_ja_female_%s.html'
 
     def run(self, number):
-        html = self.path % number
-        result = requests.get(html)
-        assert result.status_code == 200
-        return result.content
+        if number == 1:
+            html = 'gensun.org/list_ja_female.html'
+        else:
+            html = self.path % number
+        with open(html, "r") as f:
+            content = f.read()
+        return content
+
 
 

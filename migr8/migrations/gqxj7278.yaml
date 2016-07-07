@@ -10,7 +10,8 @@ up: |
   create table ${table} (
     id               serial       primary key,
     name             varchar(255) not null,
-    path             varchar(255) not null,
+    image_path       varchar(255) not null,
+    local_path       varchar(255) not null,
     liked            boolean,
     neuroticism      integer,
     extraversion     integer,
