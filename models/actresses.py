@@ -78,7 +78,8 @@ class ActressOp(Operation):
                 ).first()
         return {
             "name": actress.name,
-            "path": actress.path,
+            "image_path": actress.image_path,
+            "local_path": actress.local_path,
         }
 
 class GensunOp(Operation):
