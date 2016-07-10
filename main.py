@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import ujson
-from flask import Flask, json, request, Blueprint
+from flask import Flask, json, request
 import tenjin
 from tenjin.helpers import *
 
@@ -11,23 +11,6 @@ from models.actresses import ActressOp
 engine = tenjin.Engine()
 
 app = Flask(__name__, static_url_path='/images', static_folder='images')
-images = Blueprint('images', __name__, static_folder='images')
-app.register_blueprint(images)
-
-class InvalidUsage(Exception):
-    status_code = 400
-
-    def __init__(self, message, status_code=None, payload=None):
-        Exception.__init__(self)
-        self.message = message
-        if status_code is not None:
-            self.status_code = status_code
-        self.payload = payload
-
-    def to_dict(self):
-        rv = dict(self.payload or ())
-        rv['message'] = self.message
-        return rv
 
 
 @app.route("/")
@@ -51,8 +34,6 @@ def liked(id):
     assert ret
     db.commit()
     return ujson.dumps({"test": True})
-
-
 
 
 if __name__ == "__main__":

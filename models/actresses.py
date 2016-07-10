@@ -53,7 +53,6 @@ class ActressOp(Operation):
             "local_path": local_path,
         }
 
-
     def parse(self, content):
         tree = BeautifulSoup(content, 'html.parser')
         tabs = tree.find_all(attrs={"class": "thumbnailBox"})
@@ -121,6 +120,4 @@ class GensunOp(Operation):
         with open(html, "r") as f:
             content = f.read()
         return content
-
-
 
