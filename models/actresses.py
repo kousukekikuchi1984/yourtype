@@ -78,6 +78,8 @@ class ActressOp(Operation):
                 .filter_by(deleted_at=None)
                 .order_by(Actress.id)
                 ).first()
+        if actress is None:
+            return None
         local_path = self.get_image(actress.image_path)
         #
         actress.local_path = config.domain + local_path
