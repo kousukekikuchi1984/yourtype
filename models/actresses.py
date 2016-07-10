@@ -77,10 +77,18 @@ class ActressOp(Operation):
                 .order_by(Actress.id)
                 ).first()
         return {
+            "id": actress.id,
             "name": actress.name,
             "image_path": actress.image_path,
             "local_path": actress.local_path,
         }
+
+    def tag_like(self, id, liked):
+        actress = self.db.query(Actress).get(id)
+        actress.liked = liked
+        self.db.add(actress)
+        self.db.flush()
+        return True
 
 class GensunOp(Operation):
 
