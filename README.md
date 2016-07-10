@@ -17,7 +17,7 @@ required libraries are described on `requirements.txt`
 
 ## Implementaion
 - [x] inserting data
-- [ ] adding web app framework
+- [x] adding web app framework
 - [ ] labeling each actress
 - [ ] constructing a CNN model
 
