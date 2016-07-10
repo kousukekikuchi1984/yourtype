@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/2.5.0/riot+compiler.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+  <script>
+    function evaluation(like) {
+      var data = {"liked": like};
+      $.ajax('/actress/${id}', {
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        type: 'POST',
+        success: function() {
+          location.reload();
+        },
+        error: function() {
+          alert("something wrong");
+        }
+      })
+    }
+  </script>
+  <body>
+    <h1>${name}</h1>
+    <img src="${image_path}" alt="${name}" />
+    <div class="button">
+      <button id="dislike" onclick="evaluation(false)">dislike</button>
+      <button id="like" onclick="evaluation(true)">like</button>
+    </div>
+  </body>
+</html>

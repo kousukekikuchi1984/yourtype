@@ -1,5 +1,12 @@
 beautifulsoup4==4.4.1
+click==6.6
+Flask==0.11.1
+itsdangerous==0.24
+Jinja2==2.8
+MarkupSafe==0.23
 psycopg2==2.6.1
 requests==2.10.0
 SQLAlchemy==1.0.13
+Tenjin==1.1.1
 ujson==1.35
+Werkzeug==0.11.10
