@@ -7,6 +7,8 @@ import requests
 from bs4 import BeautifulSoup
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
 
+from config import config
+
 from models import Base, Operation, UseCase
 
 
@@ -51,6 +53,7 @@ class ActressOp(Operation):
             "local_path": local_path,
         }
 
+
     def parse(self, content):
         tree = BeautifulSoup(content, 'html.parser')
         tabs = tree.find_all(attrs={"class": "thumbnailBox"})
@@ -69,13 +72,17 @@ class ActressOp(Operation):
             self.parse(content)
         self.bulk_insert()
 
-
+    ### get one
     def get_one(self):
         actress = (self.db.query(Actress)
                 .filter_by(liked=None)
                 .filter_by(deleted_at=None)
                 .order_by(Actress.id)
                 ).first()
+        local_path = self.get_image(actress.image_path)
+        #
+        actress.local_path = config.domain + local_path
+        self.db.add(actress); self.db.flush()
         return {
             "id": actress.id,
             "name": actress.name,
@@ -83,6 +90,15 @@ class ActressOp(Operation):
             "local_path": actress.local_path,
         }
 
+    def get_image(self, image_path):
+        import urllib.request
+        path = "images/%s" % image_path.split('/')[-1]
+        if not os.path.exists(path):
+            urllib.request.urlretrieve(image_path, path)
+        path = "/%s" % path
+        return path
+
+    ###
     def tag_like(self, id, liked):
         actress = self.db.query(Actress).get(id)
         actress.liked = liked
@@ -90,7 +106,10 @@ class ActressOp(Operation):
         self.db.flush()
         return True
 
+
 class GensunOp(Operation):
+    """ deprecated but not modified
+    """
 
     path = 'gensun.org/list_ja_female_%s.html'
 

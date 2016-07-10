@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import ujson
-from flask import Flask, json, request
+from flask import Flask, json, request, Blueprint
 import tenjin
 from tenjin.helpers import *
 
@@ -10,8 +10,9 @@ from models.actresses import ActressOp
 
 engine = tenjin.Engine()
 
-app = Flask(__name__)
-
+app = Flask(__name__, static_url_path='/images', static_folder='images')
+images = Blueprint('images', __name__, static_folder='images')
+app.register_blueprint(images)
 
 class InvalidUsage(Exception):
     status_code = 400
@@ -50,6 +51,7 @@ def liked(id):
     assert ret
     db.commit()
     return ujson.dumps({"test": True})
+
 
 
 
