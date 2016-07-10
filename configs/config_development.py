@@ -10,4 +10,6 @@ class Config(ConfigCommon):
     sqlalchemy_url = 'postgresql+psycopg2://yourtype@localhost/yourtype'
     configs = {"encoding": "utf-8", "echo": True}
 
+    ## routing
+    domain = 'http://localhost:5000'
 
